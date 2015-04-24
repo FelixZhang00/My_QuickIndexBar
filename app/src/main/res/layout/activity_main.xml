@@ -1,0 +1,34 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        />
+
+    <felixzhang.eample.my_quickindexbar.QuickIndexBar
+        android:id="@+id/quickbar"
+        android:layout_width="35dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:background="@color/bar"
+        />
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:textColor="@color/white"
+        android:text="A"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textSize="50sp"
+        android:background="@drawable/shap"
+        android:padding="10dp"
+        android:id="@+id/showLabel"/>
+
+</RelativeLayout>
