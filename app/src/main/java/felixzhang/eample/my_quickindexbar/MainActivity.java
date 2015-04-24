@@ -16,7 +16,7 @@ public class MainActivity extends ActionBarActivity {
     private static final String TAG = "MainActivity";
     private QuickIndexBar mQuickIndexBar;
     private ListView mListView;
-    private static final int DEFAULT_DELAY = 2000;
+    private static final int DEFAULT_DELAY = 1200;
 
     private TextView mLabel;    //在屏幕中间显示的字母放大版标签
 
@@ -46,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
         mLabel.setText(word);
 
         mHandler.removeCallbacksAndMessages(null); //移除所有消息队列
-        mHandler.postDelayed(new Runnable() {
+        mHandler.postDelayed(new Runnable() {      //发送延时消息
             @Override
             public void run() {
                 mLabel.setVisibility(View.GONE);

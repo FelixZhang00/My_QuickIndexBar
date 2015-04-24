@@ -16,19 +16,22 @@
         android:layout_width="35dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="@color/bar"
         />
 
     <TextView
+        android:id="@+id/showLabel"
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:textColor="@color/white"
-        android:text="A"
+        android:visibility="gone"
         android:gravity="center"
         android:layout_centerInParent="true"
         android:textSize="50sp"
         android:background="@drawable/shap"
         android:padding="10dp"
-        android:id="@+id/showLabel"/>
+        android:text="A"
+        />
 
 </RelativeLayout>

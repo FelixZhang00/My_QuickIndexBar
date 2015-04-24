@@ -34,6 +34,7 @@ public class QuickIndexBar extends View {
     String[] indexs = new String[]{"A", "B", "C", "D", "E", "F", "G",
             "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S",
             "T", "U", "V", "W", "X", "Y", "Z"};
+
     private Paint paint;
     private int cellWidth, cellHeight;
 
@@ -54,10 +55,10 @@ public class QuickIndexBar extends View {
         //分别画26个字母
         for (int i = 0; i < indexs.length; i++) {
 
-            if(i==lastIndex){ //正在touch的位置 需要更加人性化的交互
+            if (i == lastIndex) {               //正在touch的位置 需要更加人性化的交互
                 paint.setTextSize(60);
                 paint.setColor(Color.GRAY);
-            }else{
+            } else {
                 paint.setTextSize(40);
                 paint.setColor(Color.WHITE);
             }
@@ -77,6 +78,7 @@ public class QuickIndexBar extends View {
     }
 
     private int lastIndex = -1;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
@@ -90,13 +92,14 @@ public class QuickIndexBar extends View {
             case MotionEvent.ACTION_MOVE:
                 if (isSameIndex(y / cellHeight)) break;
 
-
-                String word = indexs[((int) (y / cellHeight))];
-                lastIndex = y / cellHeight;
-                if (mIndexChangedListener != null) {
-                    mIndexChangedListener.indexChanged(word);
+                //安全检查
+                if (y >= 0 && (y / cellHeight) < indexs.length) {
+                    String word = indexs[((int) (y / cellHeight))];
+                    lastIndex = y / cellHeight;
+                    if (mIndexChangedListener != null) {
+                        mIndexChangedListener.indexChanged(word);
+                    }
                 }
-
                 break;
             case MotionEvent.ACTION_UP:
                 lastIndex = -1;
@@ -113,12 +116,11 @@ public class QuickIndexBar extends View {
 
     /**
      * 当前的索引位置是否和上一个相等
-     *
-     * @return
      */
     private boolean isSameIndex(int currIndex) {
         return lastIndex == currIndex;
     }
+
 
     private IndexChangedListener mIndexChangedListener;
 
