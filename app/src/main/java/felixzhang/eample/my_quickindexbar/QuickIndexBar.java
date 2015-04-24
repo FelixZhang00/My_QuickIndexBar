@@ -100,6 +100,7 @@ public class QuickIndexBar extends View {
                         mIndexChangedListener.indexChanged(word);
                     }
                 }
+
                 break;
             case MotionEvent.ACTION_UP:
                 lastIndex = -1;
