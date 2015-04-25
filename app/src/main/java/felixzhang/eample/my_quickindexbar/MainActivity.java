@@ -39,6 +39,7 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+
     private Handler mHandler = new Handler();
 
     private void showIndexLabel(String word) {
