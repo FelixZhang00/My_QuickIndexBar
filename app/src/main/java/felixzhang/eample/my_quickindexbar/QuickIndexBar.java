@@ -56,7 +56,7 @@ public class QuickIndexBar extends View {
         for (int i = 0; i < indexs.length; i++) {
 
             if (i == lastIndex) {               //正在touch的位置 需要更加人性化的交互
-                paint.setTextSize(60);
+                paint.setTextSize(80);
                 paint.setColor(Color.GRAY);
             } else {
                 paint.setTextSize(40);

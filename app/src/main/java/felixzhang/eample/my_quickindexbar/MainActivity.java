@@ -1,14 +1,19 @@
 package felixzhang.eample.my_quickindexbar;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -20,6 +25,8 @@ public class MainActivity extends ActionBarActivity {
 
     private TextView mLabel;    //在屏幕中间显示的字母放大版标签
 
+    private MyAdapter mAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,15 +35,29 @@ public class MainActivity extends ActionBarActivity {
         mListView = (ListView) findViewById(R.id.listview);
         mLabel = (TextView) findViewById(R.id.showLabel);
 
+        final ArrayList<Friend> friends = FriendsManager.getFriends();
+        Collections.sort(friends);
+        mAdapter = new MyAdapter(this, R.layout.list_item, friends);
+        mListView.setAdapter(mAdapter);
+
         mQuickIndexBar.setIndexChangedListener(new QuickIndexBar.IndexChangedListener() {
             @Override
             public void indexChanged(String word) {
                 Log.i(TAG, word);
-//                Toast.makeText(MainActivity.this, word, Toast.LENGTH_SHORT).show();
                 showIndexLabel(word);
+                for (int i=0;i<friends.size();i++) {
+                    String indexWord=friends.get(i).getName().charAt(0)+"";
+                    if (indexWord.equals(word)) {
+                        mListView.setSelection(i);
+                        break;
+                    }
+                }
+
 
             }
         });
+
+
     }
 
 
@@ -56,27 +77,65 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
-    private class MyAdapter extends BaseAdapter {
+    private class MyAdapter extends ArrayAdapter<Friend> {
+        private Context mContext;
+        private int mResource;
 
-        @Override
-        public int getCount() {
-            return 0;
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return 0;
+        public MyAdapter(Context context, int resource, List<Friend> objects) {
+            super(context, resource, objects);
+            mContext = context;
+            mResource = resource;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            return null;
+            if (convertView == null) {
+                convertView = View.inflate(mContext, mResource, null);
+            }
+            holder = getHolder(convertView);
+            Friend item = getItem(position);
+            holder.nameTextView.setText(item.getName());
+
+            String currIndexWord = item.getName().charAt(0) + "";
+
+            if (position > 0) {
+                String lastIndexWord = getItem(position - 1).getName().charAt(0) + "";
+                if (lastIndexWord.equals(currIndexWord)) {
+                    holder.indexTextView.setVisibility(View.GONE);
+                } else {
+                    holder.indexTextView.setVisibility(View.VISIBLE);
+                    holder.indexTextView.setText(currIndexWord);
+                }
+            } else {
+                holder.indexTextView.setVisibility(View.VISIBLE);
+                holder.indexTextView.setText(currIndexWord);
+            }
+
+
+            return convertView;
         }
+
+        private ViewHolder getHolder(View convertView) {
+            ViewHolder viewHolder = (ViewHolder) convertView.getTag();
+            if (viewHolder == null) {
+                viewHolder = new ViewHolder();
+                viewHolder.indexTextView = (TextView) convertView.findViewById(R.id.index);
+                viewHolder.nameTextView = (TextView) convertView.findViewById(R.id.name);
+
+                convertView.setTag(viewHolder);
+            }
+
+
+            return viewHolder;
+        }
+
+        private ViewHolder holder;
+
+        class ViewHolder {
+            TextView indexTextView;
+            TextView nameTextView;
+        }
+
     }
 
 
